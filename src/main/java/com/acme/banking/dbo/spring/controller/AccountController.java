@@ -20,11 +20,13 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(path = "/api", headers = "X-API-VERSION")
+@RequestMapping(path = "/api", headers = "X-API-VERSION")//версионированние рест апи
 @Validated
 @Api(value="Accounts", description="Operations on Accounts of DBO")
 public class AccountController {
@@ -57,6 +59,12 @@ public class AccountController {
                     HttpStatus.NOT_FOUND,
                     "Account not found id: " + id
                 ));
+    }
+
+    @GetMapping(path = "/accounts/{email}", headers = "X-API-VERSION=1")
+    public ResponseEntity<Collection<Account>> getAccounts(@PathVariable @Email(message = "Not a valid email") String email) {
+        return null;
+
     }
 
     @DeleteMapping(path = "/accounts/{id}", headers = "X-API-VERSION=1")
